@@ -268,26 +268,26 @@ function EarlyBirdSection() {
         </motion.div>
 
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: false }} variants={scaleIn}>
-          <form onSubmit={handleSubmit} className="glass-card p-8 md:p-12 rounded-2xl space-y-6">
+          <form onSubmit={handleSubmit} className="rounded-2xl space-y-6 p-8 md:p-12" style={{ background: "linear-gradient(135deg, #0f1f38 0%, #0d1a30 100%)", border: "1.5px solid rgba(255,107,0,0.45)", boxShadow: "0 0 48px rgba(255,107,0,0.12), 0 8px 40px rgba(0,0,0,0.5)" }}>
             <div className="space-y-2">
               <label className="text-sm font-medium">Full Name</label>
-              <Input name="name" required placeholder="John Doe" className="bg-background/50 border-white/10 focus:border-primary" />
+              <Input name="name" required placeholder="John Doe" className="bg-[#07111F] border-white/15 focus:border-primary focus:ring-1 focus:ring-primary/50" />
             </div>
             
             <div className="space-y-2">
               <label className="text-sm font-medium">Email Address</label>
-              <Input name="email" required type="email" placeholder="john@example.com" className="bg-background/50 border-white/10 focus:border-primary" />
+              <Input name="email" required type="email" placeholder="john@example.com" className="bg-[#07111F] border-white/15 focus:border-primary focus:ring-1 focus:ring-primary/50" />
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Phone Number</label>
-              <Input name="phone" required type="tel" placeholder="+234 000 0000 000" className="bg-background/50 border-white/10 focus:border-primary" />
+              <Input name="phone" required type="tel" placeholder="+234 000 0000 000" className="bg-[#07111F] border-white/15 focus:border-primary focus:ring-1 focus:ring-primary/50" />
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Select Your Preferred Learning Track</label>
               <Select name="track" required>
-                <SelectTrigger className="bg-background/50 border-white/10 focus:ring-primary">
+                <SelectTrigger className="bg-[#07111F] border-white/15 focus:ring-primary">
                   <SelectValue placeholder="Select a track" />
                 </SelectTrigger>
                 <SelectContent>
@@ -303,7 +303,7 @@ function EarlyBirdSection() {
             <div className="space-y-2">
               <label className="text-sm font-medium">How did you hear about us?</label>
               <Select name="source" required>
-                <SelectTrigger className="bg-background/50 border-white/10 focus:ring-primary">
+                <SelectTrigger className="bg-[#07111F] border-white/15 focus:ring-primary">
                   <SelectValue placeholder="Select an option" />
                 </SelectTrigger>
                 <SelectContent>
@@ -357,11 +357,25 @@ function EarlyBirdSection() {
             )}
           </form>
 
-          <div className="mt-8 p-6 bg-[#0D1B2E] border border-white/5 rounded-xl flex items-start gap-4 shadow-lg">
-            <Clock className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              <strong className="text-white">⏱ 24-Hour Payment Window:</strong> After submitting your application, payment instructions will be delivered via WhatsApp. You have 24 hours to complete payment. Failure to pay within 24 hours will result in your Early Bird spot being reassigned and you will be moved to the ₦50,000 Late Registration tier.
-            </p>
+          <div className="mt-8 rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,107,0,0.3)", background: "#0a1628" }}>
+            <div className="flex items-center gap-3 px-6 py-4 border-b border-orange-500/20">
+              <Clock className="w-5 h-5 text-primary flex-shrink-0" />
+              <span className="font-bold text-white">24-Hour Payment Window</span>
+            </div>
+            <div className="px-6 py-5 space-y-4">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                After submitting your application, payment instructions will be delivered via WhatsApp. You have <strong className="text-white">24 hours</strong> to complete payment. Failure to pay within 24 hours will result in your Early Bird spot being reassigned — you will be moved to the <strong className="text-orange-400">₦50,000 Late Registration tier</strong>.
+              </p>
+              <a
+                href="https://tally.so/r/EkDj0r"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/40 hover:border-orange-500/70 text-orange-300 hover:text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-all duration-200"
+              >
+                <Clock className="w-4 h-4" />
+                I need a 24-hour window — register here
+              </a>
+            </div>
           </div>
 
         </motion.div>
@@ -389,6 +403,7 @@ function MidPageCta({ onCtaClick }: { onCtaClick: () => void }) {
 // --- Section 4: Video Testimonials ---
 function VideoTestimonials() {
   return (
+    <>
     <section className="py-24 bg-card/50">
       <div className="max-w-4xl mx-auto px-6">
         <motion.h2 
@@ -440,6 +455,54 @@ function VideoTestimonials() {
             </div>
           </motion.div>
         </div>
+      </div>
+    </section>
+
+    {/* Post-Testimonial CTA block */}
+    <PostTestimonialCta />
+  </>
+  );
+}
+
+function PostTestimonialCta() {
+  const scrollToEarlyBird = () => document.getElementById("early-bird")?.scrollIntoView({ behavior: "smooth" });
+  return (
+    <section className="py-16 px-6" style={{ background: "linear-gradient(180deg, #07111F 0%, #0d1a2e 100%)" }}>
+      <div className="max-w-2xl mx-auto text-center space-y-6">
+        {/* Primary — full attention */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }}
+          className="rounded-2xl p-8 space-y-4"
+          style={{ background: "linear-gradient(135deg, #0f1f38, #0d1a30)", border: "1.5px solid rgba(255,107,0,0.5)", boxShadow: "0 0 40px rgba(255,107,0,0.1)" }}
+        >
+          <div className="text-xs uppercase tracking-widest text-primary font-bold">Early Bird Price</div>
+          <div className="text-5xl font-bold text-primary">₦15,000</div>
+          <p className="text-muted-foreground text-sm">One-Time Payment &bull; Limited Spots Available</p>
+          <Button
+            onClick={scrollToEarlyBird}
+            size="lg"
+            className="w-full bg-primary hover:bg-orange-600 text-white py-6 text-lg font-bold rounded-xl mt-2"
+          >
+            Secure Your Early Bird Spot
+          </Button>
+        </motion.div>
+
+        {/* Secondary — small nudge, low visual weight */}
+        <motion.div
+          initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: false }}
+          transition={{ delay: 0.2 }}
+          className="text-center"
+        >
+          <p className="text-xs text-muted-foreground mb-2">Not ready to pay right now?</p>
+          <a
+            href="https://tally.so/r/EkDj0r"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-orange-400/70 hover:text-orange-300 underline underline-offset-2 transition-colors"
+          >
+            Register for the 24-hour payment window instead &rarr;
+          </a>
+        </motion.div>
       </div>
     </section>
   );
