@@ -1,0 +1,14 @@
+[build]
+  command = "pnpm --filter @workspace/orbs-academy run build"
+  publish = "artifacts/orbs-academy/dist/public"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PORT = "3000"
+  BASE_PATH = "/"
+  NODE_ENV = "production"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
