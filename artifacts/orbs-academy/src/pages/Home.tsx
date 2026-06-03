@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logoSrc from "@assets/Group_87_1780493231216.png";
 import img1 from "@assets/6_1780491081997.png";
 import img2 from "@assets/7_1780491082091.png";
@@ -53,6 +53,39 @@ const scaleIn = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
 };
+
+const STORAGE_KEY = "orbs_eb_expiry";
+const WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+function useCountdown() {
+  const getOrCreateExpiry = () => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const val = parseInt(stored, 10);
+      if (!isNaN(val) && val > Date.now()) return val;
+    }
+    const expiry = Date.now() + WINDOW_MS;
+    localStorage.setItem(STORAGE_KEY, String(expiry));
+    return expiry;
+  };
+
+  const [expiry] = useState<number>(getOrCreateExpiry);
+  const [remaining, setRemaining] = useState(() => Math.max(0, expiry - Date.now()));
+
+  useEffect(() => {
+    const tick = () => setRemaining(Math.max(0, expiry - Date.now()));
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [expiry]);
+
+  const hours = Math.floor(remaining / 3_600_000);
+  const minutes = Math.floor((remaining % 3_600_000) / 60_000);
+  const seconds = Math.floor((remaining % 60_000) / 1_000);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const expired = remaining === 0;
+
+  return { hours, minutes, seconds, pad, expired };
+}
 
 export default function Home() {
   const { toast } = useToast();
@@ -227,6 +260,7 @@ function EarlyBirdSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const { toast } = useToast();
+  const { hours, minutes, seconds, pad, expired } = useCountdown();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -270,7 +304,40 @@ function EarlyBirdSection() {
           initial="hidden" whileInView="visible" viewport={{ once: false }} variants={fadeInUp}
           className="text-center mb-12"
         >
-          <div className="inline-block text-primary uppercase tracking-widest font-bold mb-4">Early Bird Access</div>
+          <div className="inline-block text-primary uppercase tracking-widest font-bold mb-6">Early Bird Access</div>
+
+          {/* Countdown timer */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }}
+            className="inline-flex flex-col items-center mb-8"
+          >
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">
+              {expired ? "⚠️ Early Bird window has closed" : "⏱ This offer closes in"}
+            </p>
+            {expired ? (
+              <div className="rounded-xl px-8 py-4 text-orange-300 font-bold text-lg" style={{ background: "#1a0a00", border: "1px solid rgba(255,107,0,0.4)" }}>
+                Early Bird window expired — see Late Registration below
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                {[{ label: "HRS", value: pad(hours) }, { label: "MIN", value: pad(minutes) }, { label: "SEC", value: pad(seconds) }].map(({ label, value }, i) => (
+                  <React.Fragment key={label}>
+                    {i > 0 && <span className="text-3xl font-bold text-primary/60 mb-4">:</span>}
+                    <div className="flex flex-col items-center">
+                      <div
+                        className="w-20 h-20 md:w-24 md:h-24 rounded-xl flex items-center justify-center text-3xl md:text-4xl font-bold text-white tabular-nums"
+                        style={{ background: "linear-gradient(135deg, #0f1f38, #0d1a30)", border: "1.5px solid rgba(255,107,0,0.5)", boxShadow: "0 0 20px rgba(255,107,0,0.12)" }}
+                      >
+                        {value}
+                      </div>
+                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground mt-2">{label}</span>
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
+          </motion.div>
+
           <div className="text-6xl md:text-7xl font-bold text-primary mb-4">₦15,000</div>
           <div className="text-lg text-muted-foreground font-medium mb-8">One-Time Payment • Limited Availability</div>
 
