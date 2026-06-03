@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logoSrc from "@assets/Group_87_1780493231216.png";
 import img1 from "@assets/6_1780491081997.png";
 import img2 from "@assets/7_1780491082091.png";
 import img3 from "@assets/8_1780491082171.png";
@@ -62,6 +63,22 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* Sticky Navbar */}
+      <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-3" style={{ background: "rgba(5,11,26,0.85)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="flex items-center gap-3">
+          <img src={logoSrc} alt="Orbs Academy" className="h-9 w-auto" />
+          <span className="font-bold text-lg tracking-tight text-white hidden sm:block" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Orbs Academy</span>
+        </div>
+        <motion.button
+          onClick={handleScrollToEarlyBird}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          className="bg-primary hover:bg-orange-600 text-white text-sm font-bold px-5 py-2 rounded-full transition-colors shadow-md"
+        >
+          Enroll Now
+        </motion.button>
+      </header>
+
       {/* Floating CTA */}
       <motion.button
         onClick={handleScrollToEarlyBird}
