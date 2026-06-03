@@ -1,4 +1,12 @@
 import React, { useState } from "react";
+import img1 from "@assets/6_1780491081997.png";
+import img2 from "@assets/7_1780491082091.png";
+import img3 from "@assets/8_1780491082171.png";
+import img4 from "@assets/9_1780491082234.png";
+import img5 from "@assets/4_1780491082306.png";
+import img6 from "@assets/5_1780491082383.png";
+import img7 from "@assets/3_1780491082477.png";
+import img8 from "@assets/11_1780491082545.png";
 import { motion } from "framer-motion";
 import {
   CheckCircle2,
@@ -454,7 +462,7 @@ function CareerPaths() {
           initial="hidden" whileInView="visible" viewport={{ once: false }} variants={fadeInUp}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl lg:text-4xl font-bold">Choose Your Learning Path</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-primary">Choose Your Learning Path</h2>
         </motion.div>
 
         <motion.div
@@ -471,11 +479,14 @@ function CareerPaths() {
                 key={i}
                 variants={fadeInUp}
                 whileHover={{ y: -8 }}
-                className={`glass-card p-8 rounded-xl flex flex-col items-start w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] border border-white/5 transition-all duration-300 ${path.ring}`}
+                className="glass-card p-8 rounded-xl flex flex-col items-start w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] transition-all duration-300"
+                style={{ border: `1px solid ${path.color}60` }}
+                onMouseEnter={e => (e.currentTarget.style.border = `1px solid ${path.color}`)}
+                onMouseLeave={e => (e.currentTarget.style.border = `1px solid ${path.color}60`)}
               >
                 <div 
                   className="w-12 h-12 rounded-lg flex items-center justify-center mb-6 bg-white/5"
-                  style={{ border: `1px solid ${path.color}40` }}
+                  style={{ border: `1px solid ${path.color}60` }}
                 >
                   <Icon className="w-6 h-6" style={{ color: path.color }} />
                 </div>
@@ -590,22 +601,22 @@ function StudentGallery({ onCtaClick }: { onCtaClick: () => void }) {
         </motion.h2>
 
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 mb-16">
-          {[200, 300, 250, 400, 250, 300, 200, 350].map((height, i) => (
+          {[img1, img2, img3, img4, img5, img6, img7, img8].map((src, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: false }}
               transition={{ duration: 0.5, delay: (i % 4) * 0.1 }}
-              className="glass-card rounded-xl overflow-hidden relative group break-inside-avoid"
-              style={{ height: `${height}px` }}
+              whileHover={{ scale: 1.02 }}
+              className="rounded-xl overflow-hidden relative group break-inside-avoid cursor-pointer"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-4">
-                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">
-                  <Users className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium">Orbs Academy Student</span>
-                </div>
-              </div>
+              <img
+                src={src}
+                alt="Orbs Academy Student"
+                className="w-full h-auto object-cover block"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
           ))}
         </div>
