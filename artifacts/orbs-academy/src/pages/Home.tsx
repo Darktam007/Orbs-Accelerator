@@ -463,7 +463,7 @@ function EarlyBirdSection() {
                 </div>
 
                 <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-orange-600 text-white py-6 text-lg mt-4 font-bold">
-                  {isSubmitting ? "Submitting..." : "Secure My Spot → WhatsApp Payment"}
+                  {isSubmitting ? "Submitting..." : "Secure My Spot"}
                 </Button>
               </>
             )}
