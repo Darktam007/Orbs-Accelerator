@@ -420,11 +420,22 @@ function EarlyBirdSection() {
             </div>
 
             {readiness === "no" && (
-              <div className="p-4 bg-orange-950/30 border border-orange-500/50 rounded-lg flex items-start gap-3 mt-4">
-                <AlertTriangle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-orange-200">
-                  ⚠️ This offer is strictly for applicants ready to complete payment immediately. If you are not ready, proceed to the Late Registration option below.
-                </p>
+              <div className="p-5 bg-orange-950/30 border border-orange-500/50 rounded-xl flex items-start gap-3 mt-4">
+                <AlertTriangle className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-orange-200 space-y-2">
+                  <p className="font-semibold text-orange-300">No problem — your 24-hour window is running!</p>
+                  <p>The countdown timer above shows exactly how much time you have left. Use it — secure your ₦15,000 Early Bird spot by registering your interest now, then complete payment before the timer hits zero.</p>
+                  <p>Once the 24-hour window closes, the price rises to <strong className="text-white">₦150,000</strong>. Don't let it slip.</p>
+                  <a
+                    href="https://tally.so/r/EkDj0r"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 mt-1 bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/50 text-orange-200 hover:text-white text-xs font-bold px-4 py-2 rounded-lg transition-all"
+                  >
+                    <Clock className="w-3.5 h-3.5" />
+                    Reserve my 24-hour window now →
+                  </a>
+                </div>
               </div>
             )}
 
@@ -435,9 +446,26 @@ function EarlyBirdSection() {
             )}
 
             {readiness === "yes" && (
-              <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-orange-600 text-white py-6 text-lg mt-8 font-bold">
-                {isSubmitting ? "Submitting..." : "Submit Application"}
-              </Button>
+              <>
+                <div className="p-5 rounded-xl mt-2" style={{ background: "linear-gradient(135deg, #0a1f0a 0%, #061406 100%)", border: "1.5px solid rgba(34,197,94,0.4)", boxShadow: "0 0 20px rgba(34,197,94,0.06)" }}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-green-400 text-lg">📲</span>
+                    <span className="text-green-300 font-bold text-sm uppercase tracking-wide">What happens next</span>
+                  </div>
+                  <p className="text-sm text-green-200/90 leading-relaxed mb-3">
+                    The moment you click the button below, you'll be taken directly to our <strong className="text-white">Orbs Academy customer service line on WhatsApp</strong> to complete your payment immediately.
+                  </p>
+                  <p className="text-sm text-green-200/80 leading-relaxed mb-1">Simply send this message:</p>
+                  <div className="rounded-lg px-4 py-3 mt-1 text-sm font-mono text-white" style={{ background: "rgba(0,0,0,0.4)", border: "1px solid rgba(34,197,94,0.25)" }}>
+                    "Hi, I'm <em className="text-green-300">[Your Name]</em> and I want to make payment"
+                  </div>
+                  <p className="text-xs text-green-200/60 mt-3">Our team will respond instantly with payment instructions. Follow the steps and your spot is secured. ✅</p>
+                </div>
+
+                <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-orange-600 text-white py-6 text-lg mt-4 font-bold">
+                  {isSubmitting ? "Submitting..." : "Secure My Spot → WhatsApp Payment"}
+                </Button>
+              </>
             )}
           </form>
 
@@ -448,7 +476,7 @@ function EarlyBirdSection() {
             </div>
             <div className="px-6 py-5 space-y-4">
               <p className="text-sm text-muted-foreground leading-relaxed">
-                After submitting your application, payment instructions will be delivered via WhatsApp. You have <strong className="text-white">24 hours</strong> to complete payment. Failure to pay within 24 hours will result in your Early Bird spot being reassigned — you will be moved to the <strong className="text-orange-400">₦50,000 Late Registration tier</strong>.
+                After submitting your application, payment instructions will be delivered via WhatsApp. You have <strong className="text-white">24 hours</strong> to complete payment. Failure to pay within 24 hours will result in your Early Bird spot being reassigned — you will be moved to the <strong className="text-orange-400">₦150,000 Late Registration tier</strong>.
               </p>
               <a
                 href="https://tally.so/r/EkDj0r"
@@ -474,7 +502,7 @@ function MidPageCta({ onCtaClick }: { onCtaClick: () => void }) {
     <section className="bg-[#0D1B2E] border-y border-white/5 py-8 border-l-4 border-l-orange-500">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-xl md:text-2xl font-bold">
-          Early Bird Price: <span className="text-primary">₦15,000</span> <span className="text-muted-foreground text-base md:text-xl font-normal ml-2">| After: <span className="line-through">₦50,000</span></span>
+          Early Bird Price: <span className="text-primary">₦15,000</span> <span className="text-muted-foreground text-base md:text-xl font-normal ml-2">| After: <span className="line-through">₦150,000</span></span> <span className="ml-2 text-sm bg-primary/20 text-primary border border-primary/40 rounded-full px-3 py-0.5 font-bold">90% OFF</span>
         </div>
         <Button onClick={onCtaClick} size="lg" className="bg-primary hover:bg-orange-600 text-white px-8 font-bold">
           Secure Your Spot
@@ -894,15 +922,19 @@ function LateRegistration() {
           className="glass-card p-10 md:p-14 rounded-2xl border border-white/10"
         >
           <h2 className="text-3xl font-bold mb-6">Missed The Early Bird Offer?</h2>
-          
-          <div className="text-5xl font-bold text-white mb-6">₦50,000</div>
+
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <span className="text-2xl text-muted-foreground line-through font-medium">₦150,000</span>
+          </div>
+          <div className="text-5xl font-bold text-white mb-2">₦150,000</div>
+          <div className="text-sm text-muted-foreground mb-6">Standard Registration Price</div>
           
           <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
-            The Early Bird offer is strictly for applicants ready to complete payment immediately. If you missed the window or need more time, you can register at the standard price.
+            The Early Bird offer was reserved for the first 50 people ready to pay within 24 hours — at a <strong className="text-white">90% discount</strong>. That window has closed. You can still join Orbs Academy at the standard price.
           </p>
           
           <div className="p-4 bg-red-950/20 border border-red-900/30 rounded-lg inline-block mb-10">
-            <p className="text-sm text-red-200/80 font-medium">The ₦15,000 Early Bird window is now closed for you.</p>
+            <p className="text-sm text-red-200/80 font-medium">⚠️ The ₦15,000 Early Bird window is now closed for you.</p>
           </div>
 
           <div>
@@ -912,7 +944,7 @@ function LateRegistration() {
               className="bg-white hover:bg-gray-200 text-black px-10 py-6 text-lg font-bold"
             >
               <a href="https://tally.so/r/5Bv6l6" target="_blank" rel="noopener noreferrer">
-                Register at ₦50,000
+                Register at ₦150,000
               </a>
             </Button>
           </div>
