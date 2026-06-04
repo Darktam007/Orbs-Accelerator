@@ -57,6 +57,38 @@ const scaleIn = {
 const STORAGE_KEY = "orbs_eb_expiry";
 const WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours
 
+const SPOTS_KEY = "orbs_spots_taken";
+const SPOTS_SEED_KEY = "orbs_spots_seed";
+const TOTAL_SPOTS = 50;
+
+function useSpotCounter() {
+  const getSpots = () => {
+    const stored = localStorage.getItem(SPOTS_KEY);
+    if (stored) return Math.min(parseInt(stored, 10), TOTAL_SPOTS - 1);
+    // Seed: random start between 31–41
+    const seed = Math.floor(Math.random() * 11) + 31;
+    localStorage.setItem(SPOTS_KEY, String(seed));
+    localStorage.setItem(SPOTS_SEED_KEY, String(Date.now()));
+    return seed;
+  };
+
+  const [spots, setSpots] = useState<number>(getSpots);
+
+  useEffect(() => {
+    // Increment by 1 every ~3.5 minutes (210s) so it feels organic
+    const id = setInterval(() => {
+      setSpots(prev => {
+        const next = Math.min(prev + 1, TOTAL_SPOTS - 1);
+        localStorage.setItem(SPOTS_KEY, String(next));
+        return next;
+      });
+    }, 210_000);
+    return () => clearInterval(id);
+  }, []);
+
+  return { spots, total: TOTAL_SPOTS, remaining: TOTAL_SPOTS - spots };
+}
+
 function useCountdown() {
   const getOrCreateExpiry = () => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -263,6 +295,7 @@ function EarlyBirdSection() {
   const [errorMsg, setErrorMsg] = useState("");
   const { toast } = useToast();
   const { hours, minutes, seconds, pad, expired } = useCountdown();
+  const { spots, total, remaining } = useSpotCounter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -338,6 +371,30 @@ function EarlyBirdSection() {
                 ))}
               </div>
             )}
+          </motion.div>
+
+          {/* Spots progress bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }}
+            className="w-full max-w-sm mx-auto mb-8"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-primary">Spots Taken</span>
+              <span className="text-xs font-bold text-white">{spots} / {total}</span>
+            </div>
+            <div className="w-full h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+              <motion.div
+                className="h-full rounded-full"
+                style={{ background: "linear-gradient(90deg, #ff6b00, #ff9a3c)" }}
+                initial={{ width: 0 }}
+                whileInView={{ width: `${(spots / total) * 100}%` }}
+                viewport={{ once: false }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+              />
+            </div>
+            <p className="text-center mt-2 text-xs text-orange-300 font-semibold">
+              ⚠️ Only <strong className="text-white">{remaining} spot{remaining !== 1 ? "s" : ""}</strong> left at this price
+            </p>
           </motion.div>
 
           <div className="text-6xl md:text-7xl font-bold text-primary mb-4">₦15,000</div>
