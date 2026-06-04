@@ -385,7 +385,7 @@ function EarlyBirdSection() {
             <div className="w-full h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
               <motion.div
                 className="h-full rounded-full"
-                style={{ background: "linear-gradient(90deg, #ff6b00, #ff9a3c)" }}
+                style={{ background: "linear-gradient(90deg, #22c55e 0%, #f97316 55%, #ef4444 100%)" }}
                 initial={{ width: 0 }}
                 whileInView={{ width: `${(spots / total) * 100}%` }}
                 viewport={{ once: false }}
