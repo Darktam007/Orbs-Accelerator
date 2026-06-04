@@ -142,6 +142,8 @@ export default function Home() {
       <FinalCta onCtaClick={handleScrollToEarlyBird} />
       <LateRegistration />
 
+      <SocialProofTicker />
+
       {/* Footer */}
       <footer className="py-8 text-center text-muted-foreground text-sm border-t border-white/5">
         <p>© {new Date().getFullYear()} Orbs Academy. All rights reserved.</p>
@@ -951,5 +953,78 @@ function LateRegistration() {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+// --- Social Proof Ticker ---
+const PROOF_ENTRIES = [
+  { name: "Oluwafunmilayo A.", city: "Lagos" },
+  { name: "Chukwuemeka O.", city: "Enugu" },
+  { name: "Fatimatu I.", city: "Kano" },
+  { name: "Adewunmi B.", city: "Ibadan" },
+  { name: "Ugochukwu N.", city: "Owerri" },
+  { name: "Osarugue E.", city: "Benin City" },
+  { name: "Babajide K.", city: "Abeokuta" },
+  { name: "Ifechukwude M.", city: "Onitsha" },
+  { name: "Bilkisu A.", city: "Kaduna" },
+  { name: "Temitope O.", city: "Port Harcourt" },
+  { name: "Nnamdi C.", city: "Awka" },
+  { name: "Omowunmi F.", city: "Lagos" },
+  { name: "Mukhtar S.", city: "Sokoto" },
+  { name: "Obiageli U.", city: "Asaba" },
+  { name: "Kehinde A.", city: "Abeokuta" },
+  { name: "Erhirhie P.", city: "Warri" },
+  { name: "Chidinma E.", city: "Uyo" },
+  { name: "Adaeze C.", city: "Nnewi" },
+  { name: "Suleiman Y.", city: "Zaria" },
+  { name: "Enoghayin T.", city: "Benin City" },
+  { name: "Seun A.", city: "Lagos" },
+  { name: "Abubakar M.", city: "Katsina" },
+  { name: "Adaora N.", city: "Calabar" },
+  { name: "Folakemi A.", city: "Jos" },
+  { name: "Emeka O.", city: "Abuja" },
+];
+
+function SocialProofTicker() {
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const show = () => {
+      setIndex(Math.floor(Math.random() * PROOF_ENTRIES.length));
+      setVisible(true);
+      setTimeout(() => setVisible(false), 4000);
+    };
+
+    const first = setTimeout(() => {
+      show();
+      const interval = setInterval(show, 7000);
+      return () => clearInterval(interval);
+    }, 3000);
+
+    return () => clearTimeout(first);
+  }, []);
+
+  const entry = PROOF_ENTRIES[index];
+  const initials = entry.name.split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase();
+
+  return (
+    <div className="fixed bottom-20 left-4 z-50 pointer-events-none" style={{ maxWidth: "calc(100vw - 32px)" }}>
+      <motion.div
+        initial={{ opacity: 0, y: 16, scale: 0.95 }}
+        animate={visible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 16, scale: 0.95 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl"
+        style={{ background: "#0f1f38", border: "1px solid rgba(255,107,0,0.35)", boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 0 12px rgba(255,107,0,0.08)" }}
+      >
+        <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: "linear-gradient(135deg, #ff6b00, #e05a00)" }}>
+          {initials}
+        </div>
+        <div className="leading-tight">
+          <p className="text-white text-sm font-semibold">{entry.name}</p>
+          <p className="text-muted-foreground text-xs">{entry.city} just secured a spot 🔥</p>
+        </div>
+      </motion.div>
+    </div>
   );
 }
