@@ -430,10 +430,10 @@ function EarlyBirdSection() {
                     href="https://tally.so/r/EkDj0r"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-1 bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/50 text-orange-200 hover:text-white text-xs font-bold px-4 py-2 rounded-lg transition-all"
+                    className="inline-flex items-center gap-2 mt-1 bg-white hover:bg-gray-100 text-black text-xs font-bold px-5 py-2.5 rounded-lg transition-all"
                   >
                     <Clock className="w-3.5 h-3.5" />
-                    Reserve my 24-hour window now →
+                    Reserve My Spot
                   </a>
                 </div>
               </div>
