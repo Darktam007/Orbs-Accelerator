@@ -466,7 +466,12 @@ function EarlyBirdSection() {
               <div className="flex gap-4">
                 <button
                   type="button"
-                  onClick={() => setReadiness("yes")}
+                  onClick={() => {
+                    setReadiness("yes");
+                    if (typeof (window as any).fbq === "function") {
+                      (window as any).fbq('track', 'InitiateCheckout');
+                    }
+                  }}
                   className={`flex-1 py-3 rounded-full border transition-all ${readiness === 'yes' ? 'bg-primary text-white border-primary' : 'bg-transparent border-white/20 text-muted-foreground hover:border-white/40'}`}
                 >
                   Yes
