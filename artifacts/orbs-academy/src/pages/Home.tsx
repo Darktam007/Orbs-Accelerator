@@ -318,6 +318,9 @@ function EarlyBirdSection() {
       });
 
       if (response.ok) {
+        if (typeof (window as any).fbq === "function") {
+          (window as any).fbq('track', 'Lead');
+        }
         window.location.href = "https://wa.me/message/PZJDMTLVNKRVB1";
       } else {
         const errorData = await response.json();
